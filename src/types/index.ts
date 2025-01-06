@@ -22,3 +22,12 @@ export type User = {
   updatedAt: string;
   username: string;
 };
+
+export type Category = {
+  _v: number;
+  _id: string;
+  owner: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
