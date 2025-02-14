@@ -31,3 +31,19 @@ export type Category = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type PaginationContent = {
+  limit: number;
+  page: number;
+  totalPages: number;
+  serialNumberStartFrom: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: null | number;
+  nextPage: null | number;
+};
+
+export type Categories = PaginationContent & {
+  totalCategories: number;
+  categories: Category[];
+};

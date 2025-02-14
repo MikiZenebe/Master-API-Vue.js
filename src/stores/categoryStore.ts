@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import axios from "@/plugins/axios";
-import type { APIResponse, Category } from "@/types/index";
+import type { APIResponse, Categories, Category } from "@/types/index";
 
 export const useCategoryStore = defineStore("CategoryStore", {
-  state: () => ({}),
+  state: () => ({
+    categoriesData: {} as Categories,
+  }),
 
   actions: {
     async createCategory(form: Record<string, string>) {
@@ -16,6 +18,21 @@ export const useCategoryStore = defineStore("CategoryStore", {
             }
           );
           console.log("Categories", data.data);
+          resolve(data.data);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
+
+    async getCategories(page: number, limit: number) {
+      return new Promise<Categories>(async (resolve, reject) => {
+        try {
+          const { data } = await axios.get<APIResponse<Categories>>(
+            `/ecommerce/categories?page=${page}&limit=${limit}`
+          );
+          console.log("Categories", data.data);
+          this.categoriesData = data.data;
           resolve(data.data);
         } catch (error) {
           reject(error);

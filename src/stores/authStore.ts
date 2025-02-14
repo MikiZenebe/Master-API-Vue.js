@@ -3,7 +3,9 @@ import axios from "@/plugins/axios";
 import type { APIResponse, User } from "@/types/index";
 
 export const useAuthStore = defineStore("AuthStore", {
-  state: () => ({}),
+  state: () => ({
+    user: {} as User,
+  }),
 
   actions: {
     async registerUser(form: Record<string, string>) {
@@ -37,7 +39,18 @@ export const useAuthStore = defineStore("AuthStore", {
             ...form,
           });
           console.log("Login", data);
-
+          this.user = data.data.user;
+          localStorage.setItem(
+            "userAccessToken",
+            JSON.stringify(data.data.user)
+          );
+          localStorage.setItem(
+            "authAccessToken",
+            JSON.stringify({
+              accessToken: data.data.accessToken,
+              refreshToken: data.data.refreshToken,
+            })
+          );
           resolve(data.data.user);
         } catch (error) {
           reject(error);
